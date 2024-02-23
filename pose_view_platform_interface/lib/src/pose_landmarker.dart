@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:flutter/material.dart';
 
 /// Available pose landmarks
@@ -44,18 +42,18 @@ class Pose {
   /// Constructor to create an instance of [Pose].
   Pose({required this.landmarks, required this.worldLandmarks});
 
-  factory Pose.fromMap(Map<String, dynamic> data) {
+  factory Pose.fromMap(Map<dynamic, dynamic> data) {
     if (data
         case {
-          'landmarks': final List<Map<String, dynamic>> landmarksData,
-          'worldLandmarks': final List<Map<String, dynamic>> worldLandmarksData,
+          'normalizedLandmarks': final List<dynamic> landmarksData,
+          'worldLandmarks': final List<dynamic> worldLandmarksData,
         }) {
       return Pose(
         landmarks: Map<PoseLandmarkType, PoseLandmark>.fromIterables(
           PoseLandmarkType.values,
           landmarksData.map(
             (landmarkMap) => PoseLandmark.fromMap(
-              landmarkMap,
+              landmarkMap as Map<dynamic, dynamic>,
               PoseLandmarkType.values[landmarksData.indexOf(landmarkMap)],
             ),
           ),
@@ -64,7 +62,7 @@ class Pose {
           PoseLandmarkType.values,
           worldLandmarksData.map(
             (landmarkMap) => PoseLandmark.fromMap(
-              landmarkMap,
+              landmarkMap as Map<dynamic, dynamic>,
               PoseLandmarkType.values[worldLandmarksData.indexOf(landmarkMap)],
             ),
           ),
@@ -101,7 +99,7 @@ class PoseLandmark {
 
   /// Returns an instance of [PoseLandmark] from a given map.
   factory PoseLandmark.fromMap(
-    Map<String, dynamic> data,
+    Map<dynamic, dynamic> data,
     PoseLandmarkType landmarkType,
   ) {
     if (data
@@ -144,22 +142,22 @@ class PoseLandmark {
 class PoseData {
   PoseData(this.pose, this.inputImageSize);
 
-  factory PoseData.fromMap(Map<String, dynamic> data) {
+  factory PoseData.fromMap(Map<dynamic, dynamic> data) {
     if (data
         case {
-          'poseResult': final Map<String, dynamic> pose,
-          'inputImageHeight': final double height,
-          'inputImageWidth': final double width,
+          'poseResult': final Map<dynamic, dynamic> pose,
+          'inputImageHeight': final int height,
+          'inputImageWidth': final int width,
         }) {
       return PoseData(
         Pose.fromMap(pose),
         Size(
-          width,
-          height,
+          width.toDouble(),
+          height.toDouble(),
         ),
       );
     } else {
-      throw FormatException('Invalid pose data: $data');
+      throw FormatException('Invalid pose results data: $data');
     }
   }
 

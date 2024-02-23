@@ -1,6 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:pose_view_platform_interface/pose_view_platform_interface.dart';
 
+export 'package:pose_view_platform_interface/pose_view_platform_interface.dart'
+    show PoseViewController;
+
 PoseViewPlatform get _platform => PoseViewPlatform.instance;
 
 /// Returns the name of the current platform.
@@ -8,11 +11,6 @@ Future<String> getPlatformName() async {
   final platformName = await _platform.getPlatformName();
   if (platformName == null) throw Exception('Unable to get platform name.');
   return platformName;
-}
-
-/// Returns a stream of pose data.
-Stream<dynamic> poseStream() {
-  return PoseViewPlatform.poseChannel.receiveBroadcastStream();
 }
 
 /// Provides a platform-specific view.
