@@ -1,0 +1,43 @@
+version: 2
+enable-beta-ecosystems: true
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/pose_view"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/pose_view/example"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/pose_view_platform_interface"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/pose_view_android"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/pose_view_ios"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/pose_view_linux"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/pose_view_macos"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/pose_view_web"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/pose_view_windows"
+    schedule:
+      interval: "daily"

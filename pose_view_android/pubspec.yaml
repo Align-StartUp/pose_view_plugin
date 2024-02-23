@@ -1,0 +1,28 @@
+name: pose_view_android
+description: Android implementation of the pose_view plugin
+version: 0.1.0+1
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+flutter:
+  plugin:
+    implements: pose_view
+    platforms:
+      android:
+        package: com.relive.poseview
+        pluginClass: PoseViewPlugin
+        dartPluginClass: PoseViewAndroid
+
+dependencies:
+  flutter:
+    sdk: flutter
+  pose_view_platform_interface:
+    path: ../pose_view_platform_interface
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  plugin_platform_interface: ^2.0.0
+  very_good_analysis: ^5.1.0

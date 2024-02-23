@@ -1,0 +1,48 @@
+name: pose_view
+description: A Very Good Project created by Very Good CLI.
+version: 0.1.0+1
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        default_package: pose_view_android
+      ios:
+        default_package: pose_view_ios
+      linux:
+        default_package: pose_view_linux
+      macos:
+        default_package: pose_view_macos
+      web:
+        default_package: pose_view_web
+      windows:
+        default_package: pose_view_windows
+
+dependencies:
+  flutter:
+    sdk: flutter
+  pose_view_android:
+    path: ../pose_view_android
+  pose_view_ios:
+    path: ../pose_view_ios
+  pose_view_linux:
+    path: ../pose_view_linux
+  pose_view_macos:
+    path: ../pose_view_macos
+  pose_view_platform_interface:
+    path: ../pose_view_platform_interface
+  pose_view_web:
+    path: ../pose_view_web
+  pose_view_windows:
+    path: ../pose_view_windows
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.0
+  plugin_platform_interface: ^2.1.6
+  very_good_analysis: ^5.1.0

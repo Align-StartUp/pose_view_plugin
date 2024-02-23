@@ -1,0 +1,28 @@
+name: pose_view_web
+description: Web implementation of the pose_view plugin
+version: 0.1.0+1
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+flutter:
+  plugin:
+    implements: pose_view
+    platforms:
+      web:
+        pluginClass: PoseViewWeb
+        fileName: pose_view_web.dart
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
+  pose_view_platform_interface:
+    path: ../pose_view_platform_interface
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  very_good_analysis: ^5.1.0
