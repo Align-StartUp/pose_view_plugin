@@ -1,6 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/widgets.dart';
 import 'package:pose_view_platform_interface/pose_view_platform_interface.dart';
 
 /// The iOS implementation of [PoseViewPlatform].

@@ -1,4 +1,4 @@
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/widgets.dart';
 import 'package:pose_view_platform_interface/pose_view_platform_interface.dart';
 
 /// The Web implementation of [PoseViewPlatform].
