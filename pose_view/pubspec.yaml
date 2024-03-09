@@ -25,7 +25,16 @@ flutter:
 dependencies:
   flutter:
     sdk: flutter
-  pose_view_android:
+  pose_view_android: any
+  pose_view_ios: any
+  pose_view_linux: any
+  pose_view_macos: any
+  pose_view_platform_interface: any
+  pose_view_web: any
+  pose_view_windows: any
+
+dependency_overrides: 
+  pose_view_android: 
     path: ../pose_view_android
   pose_view_ios:
     path: ../pose_view_ios
@@ -33,7 +42,7 @@ dependencies:
     path: ../pose_view_linux
   pose_view_macos:
     path: ../pose_view_macos
-  pose_view_platform_interface:
+  pose_view_platform_interface: 
     path: ../pose_view_platform_interface
   pose_view_web:
     path: ../pose_view_web
