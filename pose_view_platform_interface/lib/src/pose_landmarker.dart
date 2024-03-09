@@ -128,17 +128,18 @@ class PoseLandmark {
   /// The landmark type.
   final PoseLandmarkType type;
 
-  /// Gives x coordinate of landmark in image frame.
-  final double x;
-
-  /// Gives y coordinate of landmark in image frame.
-  final double y;
-
-  /// Gives z coordinate of landmark in image space.
-  final double z;
+  double x;
+  double y;
+  double z;
 
   final double visibility;
   final double presence;
+
+  void updateCoordinates(double newX, double newY, double newZ) {
+    x = newX;
+    y = newY;
+    z = newZ;
+  }
 }
 
 class PoseData {

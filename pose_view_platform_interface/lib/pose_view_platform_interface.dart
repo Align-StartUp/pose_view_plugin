@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:pose_view_platform_interface/src/method_channel_pose_view.dart';
+import 'package:pose_view_platform_interface/src/one_euro_filter.dart';
 import 'package:pose_view_platform_interface/src/pose_landmarker.dart';
 
 export 'package:pose_view_platform_interface/src/pose_landmarker.dart';
@@ -63,8 +64,18 @@ abstract class PoseViewPlatform extends PlatformInterface {
 class PoseViewController {
   final PoseViewPlatform _platform = PoseViewPlatform.instance;
 
+  bool smoothLandmarks;
+
+  /// Constructor for PoseViewController.
+  /// [smoothLandmarks] is an optional parameter that defaults to false.
+  PoseViewController({this.smoothLandmarks = false});
+
   /// Returns a stream of pose data.
   Stream<PoseData> receivePoseStream() {
+    if (smoothLandmarks) {
+      return _platform.receivePoseStream().map(OneEuroFilterStrategy().filter);
+    }
+
     return _platform.receivePoseStream();
   }
 }
