@@ -65,37 +65,38 @@ abstract class PoseDataFilter {
 }
 
 class OneEuroFilterStrategy implements PoseDataFilter {
-  Map<PoseLandmarkType, Map<String, OneEuroFilter>> filters = {};
+  Map<PoseLandmarkType, Map<String, OneEuroFilter>> worldFilters = {};
+  Map<PoseLandmarkType, Map<String, OneEuroFilter>> landmarkFilters = {};
 
   @override
   PoseData filter(PoseData poseData) {
-    // poseData.pose.worldLandmarks.forEach((type, landmark) {
-    //   // Ensure each landmark type has its own set of filters
-    //   filters[type] ??= {
-    //     'x': OneEuroFilter(),
-    //     'y': OneEuroFilter(),
-    //     'z': OneEuroFilter(),
-    //   };
-
-    //   var filteredX = filters[type]!['x']!.filter(landmark.x);
-    //   var filteredY = filters[type]!['y']!.filter(landmark.y);
-    //   var filteredZ = filters[type]!['z']!.filter(landmark.z);
-
-    //   // Update the landmark coordinates directly
-    //   landmark.updateCoordinates(filteredX, filteredY, filteredZ);
-    // });
-
-    poseData.pose.landmarks.forEach((type, landmark) {
+    poseData.pose.worldLandmarks.forEach((type, landmark) {
       // Ensure each landmark type has its own set of filters
-      filters[type] ??= {
+      worldFilters[type] ??= {
         'x': OneEuroFilter(),
         'y': OneEuroFilter(),
         'z': OneEuroFilter(),
       };
 
-      var filteredX = filters[type]!['x']!.filter(landmark.x);
-      var filteredY = filters[type]!['y']!.filter(landmark.y);
-      var filteredZ = filters[type]!['z']!.filter(landmark.z);
+      var filteredX = worldFilters[type]!['x']!.filter(landmark.x);
+      var filteredY = worldFilters[type]!['y']!.filter(landmark.y);
+      var filteredZ = worldFilters[type]!['z']!.filter(landmark.z);
+
+      // Update the landmark coordinates directly
+      landmark.updateCoordinates(filteredX, filteredY, filteredZ);
+    });
+
+    poseData.pose.landmarks.forEach((type, landmark) {
+      // Ensure each landmark type has its own set of filters
+      landmarkFilters[type] ??= {
+        'x': OneEuroFilter(),
+        'y': OneEuroFilter(),
+        'z': OneEuroFilter(),
+      };
+
+      var filteredX = landmarkFilters[type]!['x']!.filter(landmark.x);
+      var filteredY = landmarkFilters[type]!['y']!.filter(landmark.y);
+      var filteredZ = landmarkFilters[type]!['z']!.filter(landmark.z);
 
       // Update the landmark coordinates directly
       landmark.updateCoordinates(filteredX, filteredY, filteredZ);
