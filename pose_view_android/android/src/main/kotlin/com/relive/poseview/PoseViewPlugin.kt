@@ -35,6 +35,7 @@ class PoseViewPlugin : FlutterPlugin, MethodCallHandler ,ActivityAware {
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
+        poseDataStreamHandler.onCancel(null)
         channel.setMethodCallHandler(null)
         context = null
     }
