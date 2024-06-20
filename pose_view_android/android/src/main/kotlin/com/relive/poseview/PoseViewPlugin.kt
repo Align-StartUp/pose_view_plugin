@@ -62,8 +62,6 @@ class PoseViewPlugin : FlutterPlugin, MethodCallHandler ,ActivityAware {
         val owner = binding.activity as LifecycleOwner
         Log.d(TAG, "Owner is $owner")
 
-        val viewModel = MainViewModel()
-
         poseChannel = EventChannel(flutterPluginBinding.binaryMessenger, POSE_CHANNEL)
         poseDataStreamHandler = PoseDataStreamHandler()
         poseChannel.setStreamHandler(poseDataStreamHandler)
@@ -75,14 +73,14 @@ class PoseViewPlugin : FlutterPlugin, MethodCallHandler ,ActivityAware {
         flutterPluginBinding
             .platformViewRegistry
             .registerViewFactory("@views/camera-pose-view", NativeCameraViewFactory(
-                    viewModel, binding.activity, owner, controller, poseDataStreamHandler, flutterPluginBinding.binaryMessenger
+                    binding.activity, owner, controller, poseDataStreamHandler, flutterPluginBinding.binaryMessenger
                 )
             )
 
         flutterPluginBinding
             .platformViewRegistry
             .registerViewFactory("@views/video-pose-view", VideoViewFactory(
-                    viewModel, flutterAssets, binding.activity, owner, controller, poseDataStreamHandler, flutterPluginBinding.binaryMessenger
+                    flutterAssets, binding.activity, owner, controller, poseDataStreamHandler, flutterPluginBinding.binaryMessenger
                 )
             )
 

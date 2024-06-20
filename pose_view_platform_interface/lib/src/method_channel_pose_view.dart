@@ -14,12 +14,12 @@ class MethodChannelPoseView extends PoseViewPlatform {
   }
 
   @override
-  Widget getCameraPoseView() {
+  Widget getCameraPoseView(PoseDetectorOptions options) {
     return const SizedBox();
   }
 
   @override
-  Widget getVideoPoseView(String videoPath) {
+  Widget getVideoPoseView(String videoPath, PoseDetectorOptions options) {
     return const SizedBox();
   }
 }

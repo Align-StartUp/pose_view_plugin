@@ -18,7 +18,6 @@ import io.flutter.plugin.platform.PlatformViewFactory
 
 
 class VideoViewFactory(
-    private val viewModel: MainViewModel,
     private val flutterAssets: FlutterAssets,
     private val activity: Activity,
     private val owner: LifecycleOwner,
@@ -32,6 +31,16 @@ class VideoViewFactory(
 
         // Extract videoPath from creationParams
         val videoPath = creationParams?.get("videoPath") as String?
+
+        // Create ViewModel from options
+        val options = creationParams?.get("options") as Map<String, Any>
+        val viewModel = MainViewModel(
+            options["model"] as Int,
+            options["delegate"] as Int,
+            (options["minPoseDetectionConfidence"] as Double).toFloat(),
+            (options["minPoseTrackingConfidence"] as Double).toFloat(),
+            (options["minPosePresenceConfidence"] as Double).toFloat(),
+        )
 
         Log.d("VideoViewFactory", "videoPath: $videoPath")
 

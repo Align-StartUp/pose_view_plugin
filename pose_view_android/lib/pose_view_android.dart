@@ -21,12 +21,14 @@ class PoseViewAndroid extends PoseViewPlatform {
     return methodChannel.invokeMethod<String>('getPlatformName');
   }
 
-  /// Creation parameters for Android view.
-  final Map<String, dynamic> creationParams = <String, dynamic>{};
-
   @override
-  Widget getCameraPoseView() {
+  Widget getCameraPoseView(PoseDetectorOptions options) {
     const viewType = '@views/camera-pose-view';
+
+    /// Creation parameters for the camera pose view.
+    final creationParams = <String, dynamic>{
+      'options': options.toJson(),
+    };
 
     return PlatformViewLink(
       viewType: viewType,
@@ -55,11 +57,14 @@ class PoseViewAndroid extends PoseViewPlatform {
   }
 
   @override
-  Widget getVideoPoseView(String videoPath) {
+  Widget getVideoPoseView(String videoPath, PoseDetectorOptions options) {
     const viewType = '@views/video-pose-view';
 
-    // Add video path to creation parameters.
-    creationParams['videoPath'] = videoPath;
+    /// Creation parameters for the video pose view.
+    final creationParams = <String, dynamic>{
+      'options': options.toJson(),
+      'videoPath': videoPath,
+    };
 
     return PlatformViewLink(
       viewType: viewType,

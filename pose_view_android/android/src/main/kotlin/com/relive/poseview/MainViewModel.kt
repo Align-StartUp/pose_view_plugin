@@ -5,46 +5,51 @@ import androidx.lifecycle.ViewModel
 /**
  *  This ViewModel is used to store pose landmarker helper settings
  */
-class MainViewModel : ViewModel() {
+//data class MainViewModel (
+//    var model: Int = PoseLandmarkerHelper.MODEL_POSE_LANDMARKER_FULL,
+//    var delegate: Int = PoseLandmarkerHelper.DELEGATE_GPU,
+//    var minPoseDetectionConfidence: Float = PoseLandmarkerHelper.DEFAULT_POSE_DETECTION_CONFIDENCE,
+//    var minPoseTrackingConfidence: Float = PoseLandmarkerHelper.DEFAULT_POSE_TRACKING_CONFIDENCE,
+//    var minPosePresenceConfidence: Float = PoseLandmarkerHelper.DEFAULT_POSE_PRESENCE_CONFIDENCE
+//)
 
-    private var _model = PoseLandmarkerHelper.MODEL_POSE_LANDMARKER_FULL
-    private var _delegate: Int = PoseLandmarkerHelper.DELEGATE_GPU
-    private var _minPoseDetectionConfidence: Float =
-        PoseLandmarkerHelper.DEFAULT_POSE_DETECTION_CONFIDENCE
-    private var _minPoseTrackingConfidence: Float = PoseLandmarkerHelper
-        .DEFAULT_POSE_TRACKING_CONFIDENCE
-    private var _minPosePresenceConfidence: Float = PoseLandmarkerHelper
-        .DEFAULT_POSE_PRESENCE_CONFIDENCE
+class MainViewModel (
+    private var model: Int = PoseLandmarkerHelper.MODEL_POSE_LANDMARKER_FULL,
+    private var delegate: Int = PoseLandmarkerHelper.DELEGATE_GPU,
+    private var minPoseDetectionConfidence: Float = PoseLandmarkerHelper.DEFAULT_POSE_DETECTION_CONFIDENCE,
+    private var minPoseTrackingConfidence: Float = PoseLandmarkerHelper.DEFAULT_POSE_TRACKING_CONFIDENCE,
+    private var minPosePresenceConfidence: Float = PoseLandmarkerHelper.DEFAULT_POSE_PRESENCE_CONFIDENCE
+) {
 
-    val currentDelegate: Int get() = _delegate
-    val currentModel: Int get() = _model
+    val currentDelegate: Int get() = delegate
+    val currentModel: Int get() = model
     val currentMinPoseDetectionConfidence: Float
         get() =
-            _minPoseDetectionConfidence
+            minPoseDetectionConfidence
     val currentMinPoseTrackingConfidence: Float
         get() =
-            _minPoseTrackingConfidence
+            minPoseTrackingConfidence
     val currentMinPosePresenceConfidence: Float
         get() =
-            _minPosePresenceConfidence
+            minPosePresenceConfidence
 
     fun setDelegate(delegate: Int) {
-        _delegate = delegate
+        this.delegate = delegate
     }
 
     fun setMinPoseDetectionConfidence(confidence: Float) {
-        _minPoseDetectionConfidence = confidence
+        minPoseDetectionConfidence = confidence
     }
 
     fun setMinPoseTrackingConfidence(confidence: Float) {
-        _minPoseTrackingConfidence = confidence
+        minPoseTrackingConfidence = confidence
     }
 
     fun setMinPosePresenceConfidence(confidence: Float) {
-        _minPosePresenceConfidence = confidence
+        minPosePresenceConfidence = confidence
     }
 
     fun setModel(model: Int) {
-        _model = model
+        this.model = model
     }
 }

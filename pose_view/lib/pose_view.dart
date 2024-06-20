@@ -3,6 +3,7 @@ import 'package:pose_view_platform_interface/pose_view_platform_interface.dart';
 
 export 'package:pose_view_platform_interface/pose_view_platform_interface.dart'
     show PoseViewController;
+export 'package:pose_view_platform_interface/src/pose_detector_options.dart';
 
 PoseViewPlatform get _platform => PoseViewPlatform.instance;
 
@@ -16,11 +17,13 @@ Future<String> getPlatformName() async {
 /// Provides a platform-specific view.
 class CameraPoseView extends StatelessWidget {
   /// Creates a new [CameraPoseView] widget.
-  const CameraPoseView({super.key});
+  const CameraPoseView({required this.options, super.key});
+
+  final PoseDetectorOptions options;
 
   @override
   Widget build(BuildContext context) {
-    return _platform.getCameraPoseView();
+    return _platform.getCameraPoseView(options);
   }
 }
 
@@ -28,13 +31,16 @@ class CameraPoseView extends StatelessWidget {
 /// Input video_url is a string of the video url.
 class VideoPoseView extends StatelessWidget {
   /// Creates a new [VideoPoseView] widget.
-  const VideoPoseView({required this.videoPath, super.key});
+  const VideoPoseView(
+      {required this.videoPath, required this.options, super.key});
 
   /// The url of the video.
   final String videoPath;
 
+  final PoseDetectorOptions options;
+
   @override
   Widget build(BuildContext context) {
-    return _platform.getVideoPoseView(videoPath);
+    return _platform.getVideoPoseView(videoPath, options);
   }
 }
