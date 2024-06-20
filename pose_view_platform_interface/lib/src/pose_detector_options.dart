@@ -6,29 +6,28 @@ enum PoseDetectionModel {
   heavy,
 }
 
-enum PoseDetectionMode {
-  stream,
-}
+// ignore: constant_identifier_names
+enum PoseDetectionDelegate { CPU, GPU }
 
 class PoseDetectorOptions {
   PoseDetectorOptions({
     this.model = PoseDetectionModel.full,
-    this.mode = PoseDetectionMode.stream,
+    this.delegate = PoseDetectionDelegate.CPU,
     this.minPoseDetectionConfidence = 0.5,
     this.minPoseTrackingConfidence = 0.5,
     this.minPosePresenceConfidence = 0.5,
   });
 
   final PoseDetectionModel model;
-  final PoseDetectionMode mode;
+  final PoseDetectionDelegate delegate;
   final double minPoseDetectionConfidence;
   final double minPoseTrackingConfidence;
   final double minPosePresenceConfidence;
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'model': model.index,
-      'mode': mode.index,
+      'delegate': delegate.index,
       'minPoseDetectionConfidence': minPoseDetectionConfidence,
       'minPoseTrackingConfidence': minPoseTrackingConfidence,
       'minPosePresenceConfidence': minPosePresenceConfidence,

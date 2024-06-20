@@ -5,8 +5,10 @@ import 'package:flutter/widgets.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:pose_view_platform_interface/src/method_channel_pose_view.dart';
 import 'package:pose_view_platform_interface/src/one_euro_filter.dart';
+import 'package:pose_view_platform_interface/src/pose_detector_options.dart';
 import 'package:pose_view_platform_interface/src/pose_landmarker.dart';
 
+export 'package:pose_view_platform_interface/src/pose_detector_options.dart';
 export 'package:pose_view_platform_interface/src/pose_landmarker.dart';
 
 /// The interface that implementations of pose_view must implement.
@@ -40,10 +42,10 @@ abstract class PoseViewPlatform extends PlatformInterface {
   Future<String?> getPlatformName();
 
   /// Returns the platform specific widget
-  Widget getCameraPoseView();
+  Widget getCameraPoseView(PoseDetectorOptions options);
 
   /// Returns the platform specific widget
-  Widget getVideoPoseView(String videoPath);
+  Widget getVideoPoseView(String videoPath, PoseDetectorOptions options);
 
   /// Event channel used to receive pose data.
   final poseChannel = const EventChannel('fit_worker/pose_data_stream');

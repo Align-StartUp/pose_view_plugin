@@ -12,7 +12,6 @@ import io.flutter.plugin.platform.PlatformView
 import io.flutter.plugin.platform.PlatformViewFactory
 
 class NativeCameraViewFactory(
-    private val viewModel: MainViewModel,
     private val activity: Activity,
     private val owner: LifecycleOwner,
     private val cameraController: ViewController,
@@ -21,6 +20,18 @@ class NativeCameraViewFactory(
 ) : PlatformViewFactory(StandardMessageCodec.INSTANCE) {
 
     override fun create(context: Context, viewId: Int, args: Any?): PlatformView {
+        val creationParams = args as Map<String?, Any?>?
+
+        // Create ViewModel from options
+        val options = creationParams?.get("options") as Map<String, Any>
+        val viewModel = MainViewModel(
+            options["model"] as Int,
+            options["delegate"] as Int,
+            (options["minPoseDetectionConfidence"] as Double).toFloat(),
+            (options["minPoseTrackingConfidence"] as Double).toFloat(),
+            (options["minPosePresenceConfidence"] as Double).toFloat(),
+        )
+
         return NativeCameraView(context, viewModel, activity, owner, cameraController, poseDataStreamHandler, messenger, viewId)
     }
 }

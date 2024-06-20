@@ -9,13 +9,13 @@ class PoseViewMock extends PoseViewPlatform {
   Future<String?> getPlatformName() async => mockPlatformName;
 
   @override
-  Widget getCameraPoseView() {
+  Widget getCameraPoseView(PoseDetectorOptions options) {
     // TODO: implement getCameraPoseView
     throw UnimplementedError();
   }
 
   @override
-  Widget getVideoPoseView(String videoPath) {
+  Widget getVideoPoseView(String videoPath, PoseDetectorOptions options) {
     // TODO: implement getVideoPoseView
     throw UnimplementedError();
   }
