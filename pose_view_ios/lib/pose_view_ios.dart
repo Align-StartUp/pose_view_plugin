@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pose_view_platform_interface/pose_view_platform_interface.dart';
@@ -20,13 +22,45 @@ class PoseViewIOS extends PoseViewPlatform {
 
   @override
   Widget getCameraPoseView(PoseDetectorOptions options) {
-    // TODO: implement getCameraPoseView
-    throw UnimplementedError();
+    const viewType = '@views/camera-pose-view';
+
+    /// Creation parameters for the camera pose view.
+    final creationParams = <String, dynamic>{
+      'options': options.toJson(),
+    };
+
+    return UiKitView(
+      viewType: viewType,
+      layoutDirection: TextDirection.ltr,
+      creationParams: creationParams,
+      creationParamsCodec: const StandardMessageCodec(),
+      gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{
+        Factory<OneSequenceGestureRecognizer>(
+          EagerGestureRecognizer.new,
+        ),
+      },
+    );
   }
 
   @override
   Widget getVideoPoseView(String videoPath, PoseDetectorOptions options) {
-    // TODO: implement getVideoPoseView
-    throw UnimplementedError();
+    const viewType = '@views/video-pose-view';
+
+    /// Creation parameters for the camera pose view.
+    final creationParams = <String, dynamic>{
+      'options': options.toJson(),
+    };
+
+    return UiKitView(
+      viewType: viewType,
+      layoutDirection: TextDirection.ltr,
+      creationParams: creationParams,
+      creationParamsCodec: const StandardMessageCodec(),
+      gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{
+        Factory<OneSequenceGestureRecognizer>(
+          EagerGestureRecognizer.new,
+        ),
+      },
+    );
   }
 }
