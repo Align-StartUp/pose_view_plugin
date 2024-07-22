@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:logging/logging.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:pose_view_platform_interface/src/method_channel_pose_view.dart';
 import 'package:pose_view_platform_interface/src/one_euro_filter.dart';
@@ -50,12 +51,16 @@ abstract class PoseViewPlatform extends PlatformInterface {
   /// Event channel used to receive pose data.
   final poseChannel = const EventChannel('fit_worker/pose_data_stream');
 
+  static final _logger = Logger('PoseViewPlatform');
+
   /// Returns a stream of pose data.
   Stream<PoseData> receivePoseStream() {
     return poseChannel.receiveBroadcastStream().map((event) {
       // First, ensure the event is a Map.
       if (event is Map) {
-        return PoseData.fromMap(event);
+        final poseData = PoseData.fromMap(event);
+        _logger.info('${poseData.toJson()}');
+        return poseData;
       } else {
         throw Exception('Invalid event type: ${event.runtimeType}');
       }
@@ -64,13 +69,12 @@ abstract class PoseViewPlatform extends PlatformInterface {
 }
 
 class PoseViewController {
-  final PoseViewPlatform _platform = PoseViewPlatform.instance;
-
-  bool smoothLandmarks;
-
   /// Constructor for PoseViewController.
   /// [smoothLandmarks] is an optional parameter that defaults to false.
   PoseViewController({this.smoothLandmarks = false});
+  final PoseViewPlatform _platform = PoseViewPlatform.instance;
+
+  bool smoothLandmarks;
 
   /// Returns a stream of pose data.
   Stream<PoseData> receivePoseStream() {

@@ -1,12 +1,10 @@
-import 'dart:math';
-
 import 'package:pose_view_platform_interface/pose_view_platform_interface.dart';
 
 double smoothing_factor(
-  double elapsed_time,
+  double elapsedTime,
   double cutoff,
 ) {
-  double r = 2.0 * 3.14 * cutoff * elapsed_time;
+  final r = 2.0 * 3.14 * cutoff * elapsedTime;
   return r / (r + 1.0);
 }
 
@@ -19,22 +17,22 @@ double exponential_smoothing(
 }
 
 class OneEuroFilter {
-  double minCutoff;
-  double beta;
-  double dCutoff;
-  double xPrev = 0.0;
-  double dxPrev = 0.0;
-  DateTime lastTime = DateTime.now();
-
   OneEuroFilter({
     this.minCutoff = 2.0,
     this.beta = 0.0,
     this.dCutoff = 1.0,
   });
 
+  double minCutoff;
+  double beta;
+  double dCutoff;
+  double xPrev = 0;
+  double dxPrev = 0;
+  DateTime lastTime = DateTime.now();
+
   double filter(double x) {
-    var now = DateTime.now();
-    var elapsedTime = now.difference(lastTime).inMilliseconds / 1000.0;
+    final now = DateTime.now();
+    final elapsedTime = now.difference(lastTime).inMilliseconds / 1000.0;
 
     if (elapsedTime <= 0.0001) {
       xPrev = x;
@@ -44,14 +42,14 @@ class OneEuroFilter {
     lastTime = now;
 
     // The filtered derivative of the signal.
-    var alphaD = smoothing_factor(elapsedTime, dCutoff);
-    var dx = (x - xPrev) / elapsedTime;
-    var dxHat = exponential_smoothing(dx, dxPrev, alphaD);
+    final alphaD = smoothing_factor(elapsedTime, dCutoff);
+    final dx = (x - xPrev) / elapsedTime;
+    final dxHat = exponential_smoothing(dx, dxPrev, alphaD);
 
     // The filtered signal.
-    var cutoff = minCutoff + beta * dxHat.abs();
-    var alpha = smoothing_factor(elapsedTime, cutoff);
-    var xHat = exponential_smoothing(x, xPrev, alpha);
+    final cutoff = minCutoff + beta * dxHat.abs();
+    final alpha = smoothing_factor(elapsedTime, cutoff);
+    final xHat = exponential_smoothing(x, xPrev, alpha);
 
     xPrev = xHat;
     dxPrev = dxHat;
@@ -78,9 +76,9 @@ class OneEuroFilterStrategy implements PoseDataFilter {
         'z': OneEuroFilter(),
       };
 
-      var filteredX = worldFilters[type]!['x']!.filter(landmark.x);
-      var filteredY = worldFilters[type]!['y']!.filter(landmark.y);
-      var filteredZ = worldFilters[type]!['z']!.filter(landmark.z);
+      final filteredX = worldFilters[type]!['x']!.filter(landmark.x);
+      final filteredY = worldFilters[type]!['y']!.filter(landmark.y);
+      final filteredZ = worldFilters[type]!['z']!.filter(landmark.z);
 
       // Update the landmark coordinates directly
       landmark.updateCoordinates(filteredX, filteredY, filteredZ);
@@ -94,9 +92,9 @@ class OneEuroFilterStrategy implements PoseDataFilter {
         'z': OneEuroFilter(),
       };
 
-      var filteredX = landmarkFilters[type]!['x']!.filter(landmark.x);
-      var filteredY = landmarkFilters[type]!['y']!.filter(landmark.y);
-      var filteredZ = landmarkFilters[type]!['z']!.filter(landmark.z);
+      final filteredX = landmarkFilters[type]!['x']!.filter(landmark.x);
+      final filteredY = landmarkFilters[type]!['y']!.filter(landmark.y);
+      final filteredZ = landmarkFilters[type]!['z']!.filter(landmark.z);
 
       // Update the landmark coordinates directly
       landmark.updateCoordinates(filteredX, filteredY, filteredZ);

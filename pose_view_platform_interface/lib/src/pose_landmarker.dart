@@ -79,6 +79,17 @@ class Pose {
 
   final Map<PoseLandmarkType, PoseLandmark> worldLandmarks;
 
+  Map<String, dynamic> toJson() {
+    return {
+      'landmarks': landmarks.map(
+        (key, value) => MapEntry(key.index.toString(), value.toJson()),
+      ),
+      'worldLandmarks': worldLandmarks.map(
+        (key, value) => MapEntry(key.index.toString(), value.toJson()),
+      ),
+    };
+  }
+
   bool allPoseLandmarksAreInFrame() {
     return landmarks.values.every(
       (element) =>
@@ -135,6 +146,17 @@ class PoseLandmark {
   final double visibility;
   final double presence;
 
+  Map<String, dynamic> toJson() {
+    return {
+      'type': type.index,
+      'x': x,
+      'y': y,
+      'z': z,
+      'visibility': visibility,
+      'presence': presence,
+    };
+  }
+
   void updateCoordinates(double newX, double newY, double newZ) {
     x = newX;
     y = newY;
@@ -166,4 +188,14 @@ class PoseData {
 
   final Pose pose;
   final Size inputImageSize;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'pose': pose.toJson(),
+      'inputImageSize': <String, double>{
+        'width': inputImageSize.width,
+        'height': inputImageSize.height,
+      },
+    };
+  }
 }

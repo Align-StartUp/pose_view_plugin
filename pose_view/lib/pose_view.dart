@@ -19,6 +19,7 @@ class CameraPoseView extends StatelessWidget {
   /// Creates a new [CameraPoseView] widget.
   const CameraPoseView({required this.options, super.key});
 
+  /// The options for the pose detector. [PoseDetectorOptions].
   final PoseDetectorOptions options;
 
   @override
@@ -31,12 +32,16 @@ class CameraPoseView extends StatelessWidget {
 /// Input video_url is a string of the video url.
 class VideoPoseView extends StatelessWidget {
   /// Creates a new [VideoPoseView] widget.
-  const VideoPoseView(
-      {required this.videoPath, required this.options, super.key});
+  const VideoPoseView({
+    required this.videoPath,
+    required this.options,
+    super.key,
+  });
 
   /// The url of the video.
   final String videoPath;
 
+  /// The options for the pose detector. [PoseDetectorOptions].
   final PoseDetectorOptions options;
 
   @override
