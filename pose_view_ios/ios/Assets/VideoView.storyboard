@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Camera View Controller-->
+        <scene sceneID="myg-br-fzT">
+            <objects>
+                <viewController storyboardIdentifier="VIDEO_VIEW_CONTROLLER" id="Y6W-OH-hqX" customClass="VideoViewController" customModule="pose_view_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="LR5-NX-OG0">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uBH-jh-cod" userLabel="PreviewView">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="bEV-so-nno"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <!-- Constraints for PreviewView -->
+                            <constraint firstItem="uBH-jh-cod" firstAttribute="top" secondItem="bEV-so-nno" secondAttribute="top" id="n7T-4m-4U5"/>
+                            <constraint firstItem="uBH-jh-cod" firstAttribute="leading" secondItem="bEV-so-nno" secondAttribute="leading" id="6gQ-Ja-vRv"/>
+                            <constraint firstItem="uBH-jh-cod" firstAttribute="trailing" secondItem="bEV-so-nno" secondAttribute="trailing" id="9cW-RX-9zd"/>
+                            <constraint firstItem="uBH-jh-cod" firstAttribute="bottom" secondItem="bEV-so-nno" secondAttribute="bottom" id="HnR-8T-FZ8"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="previewView" destination="uBH-jh-cod" id="0He-2J-Ihh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nEJ-Gu-EMh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="450" y="42"/>
+        </scene>
+    </scenes>
+</document>
