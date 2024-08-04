@@ -59,6 +59,12 @@ class CameraViewController: UIViewController {
   func setPoseDataStreamHandler(poseStreamHandler: PoseDataStreamHandler) {
     self.poseStreamHandler = poseStreamHandler
   }
+    
+  private var inferenceConfig: InferenceConfigurationManager?
+
+  func setInferenceConfig(inferenceConfig: InferenceConfigurationManager) {
+    self.inferenceConfig = inferenceConfig
+  }
 
   #if !targetEnvironment(simulator)
     override func viewWillAppear(_ animated: Bool) {
@@ -131,7 +137,6 @@ class CameraViewController: UIViewController {
 
   private func initializePoseLandmarkerServiceOnSessionResumption() {
     clearAndInitializePoseLandmarkerService()
-    // startObserveConfigChanges()
   }
 
   @objc private func clearAndInitializePoseLandmarkerService() {
@@ -139,47 +144,23 @@ class CameraViewController: UIViewController {
     poseLandmarkerService =
       PoseLandmarkerService
       .liveStreamPoseLandmarkerService(
-        modelPath: InferenceConfigurationManager.sharedInstance.model.modelPath,
-        numPoses: InferenceConfigurationManager.sharedInstance.numPoses,
-        minPoseDetectionConfidence: InferenceConfigurationManager.sharedInstance
-          .minPoseDetectionConfidence,
-        minPosePresenceConfidence: InferenceConfigurationManager.sharedInstance
-          .minPosePresenceConfidence,
-        minTrackingConfidence: InferenceConfigurationManager.sharedInstance.minTrackingConfidence,
+        modelPath: inferenceConfig!.model.modelPath,
+        numPoses: inferenceConfig!.numPoses,
+        minPoseDetectionConfidence: inferenceConfig!.minPoseDetectionConfidence,
+        minPosePresenceConfidence: inferenceConfig!.minPosePresenceConfidence,
+        minTrackingConfidence: inferenceConfig!.minTrackingConfidence,
         liveStreamDelegate: self,
-        delegate: InferenceConfigurationManager.sharedInstance.delegate)
+        delegate: inferenceConfig!.delegate)
 
     print(
-      "Model path: \(String(describing: InferenceConfigurationManager.sharedInstance.model.modelPath))"
+      "Model path: \(String(describing: inferenceConfig!.model.modelPath))"
     )
     print("PoseLandmarkerService initialized")
   }
 
   private func clearPoseLandmarkerServiceOnSessionInterruption() {
-    // stopObserveConfigChanges()
     poseLandmarkerService = nil
   }
-
-  // private func startObserveConfigChanges() {
-  //   NotificationCenter.default
-  //     .addObserver(
-  //       self,
-  //       selector: #selector(clearAndInitializePoseLandmarkerService),
-  //       name: InferenceConfigurationManager.notificationName,
-  //       object: nil)
-  //   isObserving = true
-  // }
-
-  // private func stopObserveConfigChanges() {
-  //   if isObserving {
-  //     NotificationCenter.default
-  //       .removeObserver(
-  //         self,
-  //         name: InferenceConfigurationManager.notificationName,
-  //         object: nil)
-  //   }
-  //   isObserving = false
-  // }
 }
 
 @available(iOS 13.0, *)

@@ -19,40 +19,30 @@ import Foundation
  * Controllers can observe the `InferenceConfigurationManager.notificationName` for any changes made by the user.
  */
 
-class InferenceConfigurationManager: NSObject {
 
-  var model: Model = DefaultConstants.model {
-    didSet { postConfigChangedNotification() }
-  }
+struct InferenceConfigurationManager {
 
-  var delegate: PoseLandmarkerDelegate = DefaultConstants.delegate {
-    didSet { postConfigChangedNotification() }
-  }
+    var model: Model
+    var delegate: PoseLandmarkerDelegate
+    var numPoses: Int
+    var minPoseDetectionConfidence: Float
+    var minPosePresenceConfidence: Float
+    var minTrackingConfidence: Float
 
-  var numPoses: Int = DefaultConstants.numPoses {
-    didSet { postConfigChangedNotification() }
-  }
-
-  var minPoseDetectionConfidence: Float = DefaultConstants.minPoseDetectionConfidence {
-    didSet { postConfigChangedNotification() }
-  }
-
-  var minPosePresenceConfidence: Float = DefaultConstants.minPosePresenceConfidence {
-    didSet { postConfigChangedNotification() }
-  }
-
-  var minTrackingConfidence: Float = DefaultConstants.minTrackingConfidence {
-    didSet { postConfigChangedNotification() }
-  }
-
-  static let sharedInstance = InferenceConfigurationManager()
-
-  static let notificationName = Notification.Name.init(
-    rawValue: "com.google.mediapipe.inferenceConfigChanged")
-
-  private func postConfigChangedNotification() {
-    NotificationCenter.default
-      .post(name: InferenceConfigurationManager.notificationName, object: nil)
-  }
+    init(
+        model: Model = DefaultConstants.model,
+        delegate: PoseLandmarkerDelegate = DefaultConstants.delegate,
+        numPoses: Int = DefaultConstants.numPoses,
+        minPoseDetectionConfidence: Float = DefaultConstants.minPoseDetectionConfidence,
+        minPosePresenceConfidence: Float = DefaultConstants.minPosePresenceConfidence,
+        minTrackingConfidence: Float = DefaultConstants.minTrackingConfidence
+    ) {
+        self.model = model
+        self.delegate = delegate
+        self.numPoses = numPoses
+        self.minPoseDetectionConfidence = minPoseDetectionConfidence
+        self.minPosePresenceConfidence = minPosePresenceConfidence
+        self.minTrackingConfidence = minTrackingConfidence
+    }
 
 }

@@ -14,6 +14,7 @@ class NativeVideoView: NSObject, FlutterPlatformView {
   private var videoViewController: UIViewController?
   private var poseDataStreamHandler: PoseDataStreamHandler?
   private var videoBundlePath: String
+  private var inferenceConfig: InferenceConfigurationManager
 
   private struct Constants {
     static let storyBoardName = "VideoView"
@@ -27,10 +28,12 @@ class NativeVideoView: NSObject, FlutterPlatformView {
     binaryMessenger messenger: FlutterBinaryMessenger?,
     registrar: FlutterPluginRegistrar,
     poseDataStreamHandler: PoseDataStreamHandler,
-    videoBundlePath: String
+    videoBundlePath: String,
+    inferenceConfig: InferenceConfigurationManager
   ) {
     self.poseDataStreamHandler = poseDataStreamHandler
     self.videoBundlePath = videoBundlePath
+    self.inferenceConfig = inferenceConfig
     super.init()
     instantiateVideoViewController()
   }
@@ -60,6 +63,9 @@ class NativeVideoView: NSObject, FlutterPlatformView {
       poseStreamHandler: poseDataStreamHandler!)
     (videoViewController as! VideoViewController).setVideoPath(
       videoPath: videoBundlePath
+    )
+    (videoViewController as! VideoViewController).setInferenceConfig(
+      inferenceConfig: inferenceConfig
     )
   }
 }

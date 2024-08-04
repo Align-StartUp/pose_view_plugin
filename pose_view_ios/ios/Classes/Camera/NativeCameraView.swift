@@ -13,6 +13,7 @@ import Foundation
 class NativeCameraView: NSObject, FlutterPlatformView {
   private var cameraViewController: UIViewController?
   private var poseDataStreamHandler: PoseDataStreamHandler?
+  private var inferenceConfig: InferenceConfigurationManager?
 
   private struct Constants {
     static let storyBoardName = "CameraView"
@@ -25,11 +26,11 @@ class NativeCameraView: NSObject, FlutterPlatformView {
     arguments args: Any?,
     binaryMessenger messenger: FlutterBinaryMessenger?,
     registrar: FlutterPluginRegistrar,
-    poseDataStreamHandler: PoseDataStreamHandler
+    poseDataStreamHandler: PoseDataStreamHandler,
+    inferenceConfig: InferenceConfigurationManager
   ) {
-    print(Bundle.init(for: NativeCameraView.self).bundlePath)
-    print(Bundle.init(for: NativeCameraView.self).bundleURL)
     self.poseDataStreamHandler = poseDataStreamHandler
+    self.inferenceConfig = inferenceConfig
     super.init()
     instantiateCameraViewController()
   }
@@ -57,5 +58,8 @@ class NativeCameraView: NSObject, FlutterPlatformView {
     cameraViewController = viewController
     (cameraViewController as! CameraViewController).setPoseDataStreamHandler(
       poseStreamHandler: poseDataStreamHandler!)
+    (cameraViewController as! CameraViewController).setInferenceConfig(
+      inferenceConfig: inferenceConfig!
+    )
   }
 }

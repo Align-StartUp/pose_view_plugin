@@ -52,6 +52,12 @@ class VideoViewController: UIViewController {
     self.poseStreamHandler = poseStreamHandler
   }
 
+  private var inferenceConfig: InferenceConfigurationManager?
+
+  func setInferenceConfig(inferenceConfig: InferenceConfigurationManager) {
+    self.inferenceConfig = inferenceConfig
+  }
+
   private var videoPath: String?
   private var player: AVPlayer?
   private var playerLayer: AVPlayerLayer?
@@ -146,18 +152,16 @@ class VideoViewController: UIViewController {
     poseLandmarkerService =
       PoseLandmarkerService
       .liveStreamPoseLandmarkerService(
-        modelPath: InferenceConfigurationManager.sharedInstance.model.modelPath,
-        numPoses: InferenceConfigurationManager.sharedInstance.numPoses,
-        minPoseDetectionConfidence: InferenceConfigurationManager.sharedInstance
-          .minPoseDetectionConfidence,
-        minPosePresenceConfidence: InferenceConfigurationManager.sharedInstance
-          .minPosePresenceConfidence,
-        minTrackingConfidence: InferenceConfigurationManager.sharedInstance.minTrackingConfidence,
+        modelPath: inferenceConfig!.model.modelPath,
+        numPoses: inferenceConfig!.numPoses,
+        minPoseDetectionConfidence: inferenceConfig!.minPoseDetectionConfidence,
+        minPosePresenceConfidence: inferenceConfig!.minPosePresenceConfidence,
+        minTrackingConfidence: inferenceConfig!.minTrackingConfidence,
         liveStreamDelegate: self,
-        delegate: InferenceConfigurationManager.sharedInstance.delegate)
+        delegate: inferenceConfig!.delegate)
 
     print(
-      "Model path: \(String(describing: InferenceConfigurationManager.sharedInstance.model.modelPath))"
+      "Model path: \(String(describing: inferenceConfig!.model.modelPath))"
     )
     print("PoseLandmarkerService initialized")
   }
@@ -165,6 +169,11 @@ class VideoViewController: UIViewController {
   override func viewWillLayoutSubviews() {
     super.viewWillLayoutSubviews()
     playerLayer?.frame = previewView.bounds
+  }
+    
+  override func viewDidLayoutSubviews() {
+      super.viewDidLayoutSubviews()
+      playerLayer?.frame = previewView.bounds
   }
 
   override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

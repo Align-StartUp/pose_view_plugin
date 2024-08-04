@@ -75,7 +75,7 @@ class CameraFeedService: NSObject {
   private lazy var videoPreviewLayer = AVCaptureVideoPreviewLayer(session: session)
   private let sessionQueue = DispatchQueue(
     label: "com.google.mediapipe.CameraFeedService.sessionQueue")
-  private let cameraPosition: AVCaptureDevice.Position = .back
+  private let cameraPosition: AVCaptureDevice.Position = .front
 
   private var cameraConfigurationStatus: CameraConfigurationStatus = .failed
   private lazy var videoDataOutput = AVCaptureVideoDataOutput()

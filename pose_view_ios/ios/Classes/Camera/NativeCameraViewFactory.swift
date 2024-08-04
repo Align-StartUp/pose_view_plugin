@@ -24,13 +24,41 @@ class NativeCameraViewFactory: NSObject, FlutterPlatformViewFactory {
     viewIdentifier viewId: Int64,
     arguments args: Any?
   ) -> FlutterPlatformView {
+    let creationParams = args as! [String: Any]
+      
+    let options = creationParams["options"] as! [String: Any]
+
+    let modelValue = options["model"] as! Int
+    let model = Model(rawValue: modelValue)!
+
+    let delegateValue = options["delegate"] as! Int
+    let delegate: PoseLandmarkerDelegate = {
+        switch delegateValue {
+        case 0:
+            return .CPU
+        case 1:
+            return .GPU
+        default:
+            fatalError("Invalid delegate value")
+        }
+    }()
+
+    let inferenceConfig = InferenceConfigurationManager(
+      model: model,
+      delegate: delegate,
+      minPoseDetectionConfidence: options["minPoseDetectionConfidence"] as! Float,
+      minPosePresenceConfidence: options["minPosePresenceConfidence"] as! Float,
+      minTrackingConfidence: options["minPoseTrackingConfidence"] as! Float
+    )
+
     return NativeCameraView(
       frame: frame,
       viewIdentifier: viewId,
       arguments: args,
       binaryMessenger: registrar.messenger(),
       registrar: registrar,
-      poseDataStreamHandler: poseDataStreamHandler
+      poseDataStreamHandler: poseDataStreamHandler,
+      inferenceConfig: inferenceConfig
     )
   }
 
