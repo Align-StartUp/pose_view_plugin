@@ -202,7 +202,7 @@ extension VideoViewController: PoseLandmarkerServiceLiveStreamDelegate {
       guard let poseLandmarkerResult = result?.poseLandmarkerResults.first as? PoseLandmarkerResult
       else { return }
 
-      let imageSize = self?.playerLayer?.videoRect.size ?? CGSize.zero
+      let imageSize = weakSelf.player?.currentItem?.presentationSize ?? CGSize.zero
 
       guard let poseStreamHandler = weakSelf.poseStreamHandler else { return }
       poseStreamHandler.sendResults(
