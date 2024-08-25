@@ -9,11 +9,10 @@ import androidx.lifecycle.LifecycleRegistry
 
 class ProxyLifecycleProvider(activity: Activity) :
     Application.ActivityLifecycleCallbacks, LifecycleOwner {
-    private val registrarActivityHashCode: Int
+    private val registrarActivityHashCode: Int = activity.hashCode()
     private val _lifecycle = LifecycleRegistry(this)
 
-    init {
-        this.registrarActivityHashCode = activity.hashCode();
+    init {;
         activity.application.registerActivityLifecycleCallbacks(this);
     }
 
@@ -60,11 +59,10 @@ class ProxyLifecycleProvider(activity: Activity) :
         if (activity.hashCode() !== registrarActivityHashCode) {
             return
         }
-        activity.getApplication().unregisterActivityLifecycleCallbacks(this)
+        activity.application.unregisterActivityLifecycleCallbacks(this)
         _lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     }
 
-    override fun getLifecycle(): Lifecycle {
-        return _lifecycle
-    }
+    override val lifecycle: Lifecycle
+        get() = _lifecycle
 }
