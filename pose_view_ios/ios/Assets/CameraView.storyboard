@@ -25,10 +25,10 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <!-- Constraints for PreviewView -->
-                            <constraint firstItem="uBH-jh-cod" firstAttribute="top" secondItem="bEV-so-nno" secondAttribute="top" id="n7T-4m-4U5"/>
-                            <constraint firstItem="uBH-jh-cod" firstAttribute="leading" secondItem="bEV-so-nno" secondAttribute="leading" id="6gQ-Ja-vRv"/>
-                            <constraint firstItem="uBH-jh-cod" firstAttribute="trailing" secondItem="bEV-so-nno" secondAttribute="trailing" id="9cW-RX-9zd"/>
-                            <constraint firstItem="uBH-jh-cod" firstAttribute="bottom" secondItem="bEV-so-nno" secondAttribute="bottom" id="HnR-8T-FZ8"/>
+                            <constraint firstItem="uBH-jh-cod" firstAttribute="top" secondItem="LR5-NX-OG0" secondAttribute="top" id="n7T-4m-4U5"/>
+                            <constraint firstItem="uBH-jh-cod" firstAttribute="leading" secondItem="LR5-NX-OG0" secondAttribute="leading" id="6gQ-Ja-vRv"/>
+                            <constraint firstItem="uBH-jh-cod" firstAttribute="trailing" secondItem="LR5-NX-OG0" secondAttribute="trailing" id="9cW-RX-9zd"/>
+                            <constraint firstItem="uBH-jh-cod" firstAttribute="bottom" secondItem="LR5-NX-OG0" secondAttribute="bottom" id="HnR-8T-FZ8"/>
                         </constraints>
                     </view>
                     <connections>

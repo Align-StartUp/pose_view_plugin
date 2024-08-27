@@ -112,15 +112,17 @@ class CameraFeedService: NSObject {
 
   // MARK: notification methods
   @objc func orientationChanged(notification: Notification) {
-    switch UIImage.Orientation.from(deviceOrientation: UIDevice.current.orientation) {
-    case .up:
-      videoPreviewLayer.connection?.videoOrientation = .portrait
-    case .left:
-      videoPreviewLayer.connection?.videoOrientation = .landscapeRight
-    case .right:
-      videoPreviewLayer.connection?.videoOrientation = .landscapeLeft
-    default:
-      break
+    if UIApplication.shared.statusBarOrientation.isLandscape {
+        switch UIImage.Orientation.from(deviceOrientation: UIDevice.current.orientation) {
+        case .left:
+            videoPreviewLayer.connection?.videoOrientation = .landscapeRight
+        case .right:
+            videoPreviewLayer.connection?.videoOrientation = .landscapeLeft
+        case .up:
+            videoPreviewLayer.connection?.videoOrientation = .landscapeLeft
+        default:
+            break
+        }
     }
   }
 
@@ -174,6 +176,14 @@ class CameraFeedService: NSObject {
 
   func updateVideoPreviewLayer(toFrame frame: CGRect) {
     videoPreviewLayer.frame = frame
+    videoPreviewLayer.videoGravity = .resizeAspectFill
+    if UIApplication.shared.statusBarOrientation.isLandscape {
+      videoPreviewLayer.connection?.videoOrientation = .landscapeLeft
+    } else {
+      videoPreviewLayer.connection?.videoOrientation = .portrait
+    }
+    print("Video preview layer frame: \(videoPreviewLayer.frame)")
+    print("Frame: \(frame)")
   }
 
   /**

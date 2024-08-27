@@ -103,7 +103,12 @@ class CameraViewController: UIViewController {
 
     override func viewWillLayoutSubviews() {
       super.viewWillLayoutSubviews()
-      cameraFeedService.updateVideoPreviewLayer(toFrame: previewView.bounds)
+      cameraFeedService.updateVideoPreviewLayer(toFrame: view.bounds)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        cameraFeedService.updateVideoPreviewLayer(toFrame: view.bounds)
     }
   #endif
 
