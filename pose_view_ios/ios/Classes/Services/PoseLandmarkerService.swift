@@ -52,6 +52,10 @@ class PoseLandmarkerService: NSObject {
   private var modelPath: String
   private var delegate: PoseLandmarkerDelegate
 
+  private var isLandscape: Bool {
+    UIApplication.shared.statusBarOrientation.isLandscape
+  }
+
   // MARK: - Custom Initializer
   private init?(
     modelPath: String?,
@@ -182,9 +186,10 @@ class PoseLandmarkerService: NSObject {
     orientation: UIImage.Orientation,
     timeStamps: Int
   ) {
-    guard let image = try? MPImage(pixelBuffer: pixelBuffer, orientation: orientation) else {
-      return
-    }
+     guard let image = try? MPImage(pixelBuffer: pixelBuffer, orientation: orientation) else {
+       return
+     }
+
     do {
       try poseLandmarker?.detectAsync(image: image, timestampInMilliseconds: timeStamps)
     } catch {
@@ -197,14 +202,52 @@ class PoseLandmarkerService: NSObject {
     orientation: UIImage.Orientation,
     timeStamps: Int
   ) {
-    guard let image = try? MPImage(sampleBuffer: sampleBuffer, orientation: orientation) else {
-      return
+    let image: MPImage?
+
+    if isLandscape {
+        guard let rotatedPixelBuffer = rotateSampleBuffer(sampleBuffer, orientation: orientation) else {
+            return
+        }
+        image = try? MPImage(pixelBuffer: rotatedPixelBuffer, orientation: .up)
+    } else {
+        image = try? MPImage(sampleBuffer: sampleBuffer, orientation: orientation)
     }
+
+    guard let validImage = image else {
+        return
+    }
+
     do {
-      try poseLandmarker?.detectAsync(image: image, timestampInMilliseconds: timeStamps)
+        try poseLandmarker?.detectAsync(image: validImage, timestampInMilliseconds: timeStamps)
     } catch {
-      print(error)
+        print(error)
     }
+  }
+
+  func rotateSampleBuffer(_ sampleBuffer: CMSampleBuffer, orientation: UIImage.Orientation) -> CVPixelBuffer? {
+      guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+          return nil
+      }
+      var newPixelBuffer: CVPixelBuffer?
+      let error = CVPixelBufferCreate(kCFAllocatorDefault,
+                                      CVPixelBufferGetHeight(pixelBuffer),
+                                      CVPixelBufferGetWidth(pixelBuffer),
+                                      kCVPixelFormatType_32BGRA,
+                                      nil,
+                                      &newPixelBuffer)
+      guard error == kCVReturnSuccess else {
+          return nil
+      }
+
+      let ciImage = CIImage(cvPixelBuffer: pixelBuffer).oriented(.right)
+      let context = CIContext()
+
+      guard let outputPixelBuffer = newPixelBuffer else { return nil }
+      
+      // Render the oriented CIImage back into a pixel buffer
+      context.render(ciImage, to: outputPixelBuffer)
+      
+      return outputPixelBuffer
   }
 
   func detect(

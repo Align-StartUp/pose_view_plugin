@@ -58,14 +58,15 @@ class CameraFeedService: NSObject {
     }
     let minDimension = min(size.width, size.height)
     let maxDimension = max(size.width, size.height)
-    switch UIDevice.current.orientation {
-    case .portrait:
-      return CGSize(width: minDimension, height: maxDimension)
-    case .landscapeLeft, .landscapeRight:
-      return CGSize(width: maxDimension, height: minDimension)
-    default:
-      return CGSize(width: minDimension, height: maxDimension)
-    }
+//    switch UIDevice.current.orientation {
+//    case .portrait:
+//      return CGSize(width: minDimension, height: maxDimension)
+//    case .landscapeLeft, .landscapeRight:
+//      return CGSize(width: maxDimension, height: minDimension)
+//    default:
+//      return CGSize(width: minDimension, height: maxDimension)
+//    }
+    return CGSize(width: minDimension, height: maxDimension)
   }
 
   let videoGravity = AVLayerVideoGravity.resizeAspectFill
@@ -115,7 +116,7 @@ class CameraFeedService: NSObject {
     if UIApplication.shared.statusBarOrientation.isLandscape {
         switch UIImage.Orientation.from(deviceOrientation: UIDevice.current.orientation) {
         case .left:
-            videoPreviewLayer.connection?.videoOrientation = .landscapeRight
+            videoPreviewLayer.connection?.videoOrientation = .landscapeLeft
         case .right:
             videoPreviewLayer.connection?.videoOrientation = .landscapeLeft
         case .up:
@@ -182,8 +183,6 @@ class CameraFeedService: NSObject {
     } else {
       videoPreviewLayer.connection?.videoOrientation = .portrait
     }
-    print("Video preview layer frame: \(videoPreviewLayer.frame)")
-    print("Frame: \(frame)")
   }
 
   /**
