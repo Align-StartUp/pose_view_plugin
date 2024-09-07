@@ -197,12 +197,17 @@ extension VideoViewController: PoseLandmarkerServiceLiveStreamDelegate {
     didFinishDetection result: ResultBundle?,
     error: Error?
   ) {
+    var imageSize = self.player?.currentItem?.presentationSize ?? CGSize.zero
+
+    // Check if the status bar orientation is landscape and swap width and height if needed
+    if UIApplication.shared.statusBarOrientation.isLandscape {
+      imageSize = CGSize(width: imageSize.height, height: imageSize.width)
+    }
+
     DispatchQueue.main.async { [weak self] in
       guard let weakSelf = self else { return }
       guard let poseLandmarkerResult = result?.poseLandmarkerResults.first as? PoseLandmarkerResult
       else { return }
-
-      let imageSize = weakSelf.player?.currentItem?.presentationSize ?? CGSize.zero
 
       guard let poseStreamHandler = weakSelf.poseStreamHandler else { return }
       poseStreamHandler.sendResults(
@@ -211,3 +216,4 @@ extension VideoViewController: PoseLandmarkerServiceLiveStreamDelegate {
     }
   }
 }
+
