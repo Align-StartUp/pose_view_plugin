@@ -18,9 +18,9 @@ double exponential_smoothing(
 
 class OneEuroFilter {
   OneEuroFilter({
-    this.minCutoff = 2.0,
-    this.beta = 0.0,
-    this.dCutoff = 1.0,
+    this.minCutoff = 3.0,
+    this.beta = 1.0,
+    this.dCutoff = 2.0,
   });
 
   double minCutoff;
