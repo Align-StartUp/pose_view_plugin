@@ -35,7 +35,8 @@ class CameraViewController: UIViewController {
 
   private let poseLandmarkerServiceQueue = DispatchQueue(
     label: "com.google.mediapipe.cameraController.poseLandmarkerServiceQueue",
-    attributes: .concurrent)
+    attributes: .concurrent
+    )
 
   // Queuing reads and writes to faceLandmarkerService using the Apple recommended way
   // as they can be read and written from multiple threads and can result in race conditions.
@@ -47,8 +48,13 @@ class CameraViewController: UIViewController {
       }
     }
     set {
-      poseLandmarkerServiceQueue.async(flags: .barrier) {
-        self._poseLandmarkerService = newValue
+      // poseLandmarkerServiceQueue.async(flags: .barrier) {
+      //   self._poseLandmarkerService = newValue
+      // }
+      DispatchQueue.main.async {
+        self.poseLandmarkerServiceQueue.sync {
+          self._poseLandmarkerService = newValue
+        }
       }
     }
   }
@@ -145,26 +151,47 @@ class CameraViewController: UIViewController {
   }
 
   @objc private func clearAndInitializePoseLandmarkerService() {
-    poseLandmarkerService = nil
-    poseLandmarkerService =
-      PoseLandmarkerService
-      .liveStreamPoseLandmarkerService(
-        modelPath: inferenceConfig!.model.modelPath,
-        numPoses: inferenceConfig!.numPoses,
-        minPoseDetectionConfidence: inferenceConfig!.minPoseDetectionConfidence,
-        minPosePresenceConfidence: inferenceConfig!.minPosePresenceConfidence,
-        minTrackingConfidence: inferenceConfig!.minTrackingConfidence,
-        liveStreamDelegate: self,
-        delegate: inferenceConfig!.delegate)
+    // poseLandmarkerService = nil
+    // poseLandmarkerService =
+    //   PoseLandmarkerService
+    //   .liveStreamPoseLandmarkerService(
+    //     modelPath: inferenceConfig!.model.modelPath,
+    //     numPoses: inferenceConfig!.numPoses,
+    //     minPoseDetectionConfidence: inferenceConfig!.minPoseDetectionConfidence,
+    //     minPosePresenceConfidence: inferenceConfig!.minPosePresenceConfidence,
+    //     minTrackingConfidence: inferenceConfig!.minTrackingConfidence,
+    //     liveStreamDelegate: self,
+    //     delegate: inferenceConfig!.delegate)
 
-    print(
-      "Model path: \(String(describing: inferenceConfig!.model.modelPath))"
-    )
-    print("PoseLandmarkerService initialized")
+    // print(
+    //   "Model path: \(String(describing: inferenceConfig!.model.modelPath))"
+    // )
+    // print("PoseLandmarkerService initialized")
+    DispatchQueue.main.async {
+      self.poseLandmarkerService = nil
+      self.poseLandmarkerService =
+        PoseLandmarkerService
+        .liveStreamPoseLandmarkerService(
+          modelPath: self.inferenceConfig!.model.modelPath,
+          numPoses: self.inferenceConfig!.numPoses,
+          minPoseDetectionConfidence: self.inferenceConfig!.minPoseDetectionConfidence,
+          minPosePresenceConfidence: self.inferenceConfig!.minPosePresenceConfidence,
+          minTrackingConfidence: self.inferenceConfig!.minTrackingConfidence,
+          liveStreamDelegate: self,
+          delegate: self.inferenceConfig!.delegate)
+      
+      print(
+        "Model path: \(String(describing: self.inferenceConfig!.model.modelPath))"
+      )
+      print("PoseLandmarkerService initialized")
+    }
   }
 
   private func clearPoseLandmarkerServiceOnSessionInterruption() {
-    poseLandmarkerService = nil
+    // poseLandmarkerService = nil
+    DispatchQueue.main.async {
+      self.poseLandmarkerService = nil
+    }
   }
 }
 
