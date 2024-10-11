@@ -323,15 +323,15 @@ class PoseLandmarkerService: NSObject {
     return (poseLandmarkerResults, videoSize)
   }
 
-  deinit {
-      if !Thread.isMainThread {
-          DispatchQueue.main.async {
-              self.poseLandmarker = nil
-          }
-      } else {
-          self.poseLandmarker = nil
-      }
-    }
+  // deinit {
+  //     if !Thread.isMainThread {
+  //         DispatchQueue.main.async {
+  //             self.poseLandmarker = nil
+  //         }
+  //     } else {
+  //         self.poseLandmarker = nil
+  //     }
+  //   }
 }
 
 // MARK: - PoseLandmarkerLiveStreamDelegate Methods
